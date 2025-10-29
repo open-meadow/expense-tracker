@@ -81,12 +81,27 @@
                     </view>
                     <navigationItem key="navigationItem" id="Kou-xq-UeR"/>
                     <connections>
-                        <outlet property="totalLabel" destination="JTh-dP-Cp9" id="DgH-P7-gbe"/>
+                        <outlet property="expensesLabel" destination="JTh-dP-Cp9" id="htY-nu-rIM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1005.3435114503816" y="96.478873239436624"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="27Z-nU-K14">
+            <objects>
+                <viewController id="9hs-zP-eCJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hJv-Xy-I8W">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="wKJ-Ni-CLb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QX5-Ye-b5O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="995" y="755"/>
         </scene>
         <!--Add Expense View Controller-->
         <scene sceneID="e2C-iE-fK7">

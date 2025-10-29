@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  expense-tracker
-//
-//  Created by open-meadow on 2025-10-27.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -13,17 +6,83 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         ExpenseList.unarchive()
-        updateTotalLabel()
+        updateExpensesDisplay(page: 0)
     }
     
-    @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var expensesLabel: UILabel!
     
-    func updateTotalLabel() {
-        var total: Double = 0
+    @IBAction func expensesDisplayControl(_ sender: UIPageControl) {
+        updateExpensesDisplay(page: sender.currentPage)
+    }
+    
+    func expensesDay() -> [Expense] {
+        let today = Date()
+        let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: today)
+        
+        var result = [Expense]()
         for expense in ExpenseList.expenses {
+            let expenseDate = Calendar.current.dateComponents([.year, .month, .day], from: expense.date)
+            if expenseDate.year == todayComponents.year &&
+                expenseDate.month == todayComponents.month &&
+                expenseDate.day == todayComponents.day {
+                result.append(expense)
+            }
+        }
+        
+        return result
+    }
+    
+    func expensesMonth() -> [Expense] {
+        let today = Date()
+        let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: today)
+        
+        var result = [Expense]()
+        for expense in ExpenseList.expenses {
+            let expenseDate = Calendar.current.dateComponents([.year, .month, .day], from: expense.date)
+            if expenseDate.year == todayComponents.year &&
+                expenseDate.month == todayComponents.month {
+                result.append(expense)
+            }
+        }
+        
+        return result
+    }
+    
+    func expensesYear() -> [Expense] {
+        let today = Date()
+        let todayComponents = Calendar.current.dateComponents([.year, .month, .day], from: today)
+        
+        var result = [Expense]()
+        for expense in ExpenseList.expenses {
+            let expenseDate = Calendar.current.dateComponents([.year, .month, .day], from: expense.date)
+            if expenseDate.year == todayComponents.year {
+                result.append(expense)
+            }
+        }
+        
+        return result
+    }
+    
+    func updateExpensesDisplay(page:Int) {
+        var expensesDisplay: [Expense] = []
+        
+        switch page {
+        case 0:
+            expensesDisplay = expensesDay()
+        case 1:
+            expensesDisplay = expensesMonth()
+        case 2:
+            expensesDisplay = expensesYear()
+        default:
+            break
+        }
+        
+        var total: Double = 0
+        for expense in expensesDisplay {
             total += expense.amount
         }
-        totalLabel.text = "$\(total)"
+        
+        expensesLabel.text = "$\(total)"
     }
 
 }

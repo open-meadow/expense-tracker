@@ -45,10 +45,8 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let amount = Double(amountText) ?? 0
         let category = selectedCategory ?? categories[-1]
         
-        ExpenseList.addExpense(amount: amount, category: category)
+        let expense = Expense(amount: amount, category: category)
+        ExpenseList.expenses.append(expense)
         ExpenseList.archive()
-        
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true)
     }
 }
