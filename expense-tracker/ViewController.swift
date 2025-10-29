@@ -12,8 +12,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        ExpenseList.unarchive()
+        updateTotalLabel()
     }
-
+    
+    @IBOutlet weak var totalLabel: UILabel!
+    
+    func updateTotalLabel() {
+        var total: Double = 0
+        for expense in ExpenseList.expenses {
+            total += expense.amount
+        }
+        totalLabel.text = "$\(total)"
+    }
 
 }
 
