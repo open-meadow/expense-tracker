@@ -1,30 +1,35 @@
 import UIKit
 
 class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var picker: UIPickerView!
     
-    let categories = [
-        "Food",
-        "Transport",
-        "Groceries",
-        "Entertainment",
-        "Clothing",
-        "Health",
-        "Bills",
-        "Miscellaneous"
-    ]
+    var categories: [String] = [String]()
+    
+    var selectedCategory: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        picker.delegate = self
-        picker.dataSource = self
+        self.picker.delegate = self
+        self.picker.dataSource = self
+        
+        categories = [
+            "Food",
+            "Transport",
+            "Groceries",
+            "Entertainment",
+            "Clothing",
+            "Health",
+            "Bills",
+            "Miscellaneous"
+        ]
         
         selectedCategory = categories[0]
+    }
+    
+    // next five functions required for picker view
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -35,11 +40,21 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return categories[row]
     }
     
-    var selectedCategory: String?
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCategory = categories[row]
     }
     
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+        label.text = categories[row]
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.textColor = .white
+        return label
+    }
+
+    
+    // create new expense and add to expense list
     @IBAction func saveButton(_ sender: UIButton) {
         let amountText = amountTextField.text ?? "0"
         let amount = Double(amountText) ?? 0
@@ -48,5 +63,7 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let expense = Expense(amount: amount, category: category)
         ExpenseList.expenses.append(expense)
         ExpenseList.archive()
+        
+        performSegue(withIdentifier: "unwindToMain", sender: self)
     }
 }

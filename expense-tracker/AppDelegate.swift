@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  expense-tracker
-//
-//  Created by open-meadow on 2025-10-27.
-//
-
 import UIKit
 
 @main

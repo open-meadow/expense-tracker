@@ -1,10 +1,3 @@
-//
-//  Expense.swift
-//  expense-tracker
-//
-//  Created by open-meadow on 2025-10-28.
-//
-
 import UIKit
 
 struct Expense: Equatable, Codable {
