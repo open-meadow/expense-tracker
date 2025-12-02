@@ -23,8 +23,10 @@ class AddExpenseViewController: UIViewController, UIPickerViewDelegate, UIPicker
             "Bills",
             "Miscellaneous"
         ]
-        
         selectedCategory = categories[0]
+        
+        let color = UserDefaults.standard.string(forKey: "backgroundColor") ?? "#365EB5"
+        view.backgroundColor = UIColor(hex: color)
     }
     
     // next five functions required for picker view

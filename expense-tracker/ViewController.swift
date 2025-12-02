@@ -10,13 +10,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("view has loaded")
         ExpenseList.unarchive()
         
         pageControl.numberOfPages = 3
         pageControl.currentPage = 0
         
         updateExpensesDisplay(page: 0)
+        
+        let color = UserDefaults.standard.string(forKey: "backgroundColor") ?? "#365EB5"
+        view.backgroundColor = UIColor(hex: color)
     }
     
     @IBAction func expensesDisplayControl(_ sender: UIPageControl) {
@@ -99,6 +101,8 @@ class ViewController: UIViewController {
         let currency = UserDefaults.standard.string(forKey: "currencySymbol")
         expensesLabel.text = "\(currency ?? "$")\(total)"
     }
+    
+
     
     @IBAction func unwindToMain(_ segue: UIStoryboardSegue) {
         updateExpensesDisplay(page: 0)

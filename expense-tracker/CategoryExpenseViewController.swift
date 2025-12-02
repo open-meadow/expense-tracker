@@ -16,6 +16,9 @@ class CategoryExpenseViewController: UIViewController, UITableViewDelegate, UITa
             ExpenseList.expenses = []
         }
         calculateTotals()
+        
+        let color = UserDefaults.standard.string(forKey: "backgroundColor") ?? "#365EB5"
+        view.backgroundColor = UIColor(hex: color)
     }
     
     func calculateTotals() {

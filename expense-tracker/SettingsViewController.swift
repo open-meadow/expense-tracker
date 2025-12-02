@@ -1,14 +1,9 @@
-//
-//  SettingsViewController.swift
-//  expense-tracker
-//
-//  Created by open-meadow on 2025-11-30.
-//
 import UIKit
 
 class SettingsViewController: UIViewController, UIColorPickerViewControllerDelegate {
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var colorChanger: UIColorWell!
     let symbols = ["$", "€", "£", "₹"]
     
     override func viewDidLoad() {
@@ -21,8 +16,12 @@ class SettingsViewController: UIViewController, UIColorPickerViewControllerDeleg
         } else {
             segmentedControl.selectedSegmentIndex = 0
         }
+        
+        view.backgroundColor = loadBGColor()
+        colorChanger.addTarget(self, action: #selector(colorChanged), for: .valueChanged)
     }
     
+    // reference: https://www.hackingwithswift.com/example-code/strings/how-to-save-a-string-to-a-file-on-disk-with-writeto
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -37,7 +36,7 @@ class SettingsViewController: UIViewController, UIColorPickerViewControllerDeleg
         let filename = getDocumentsDirectory().appendingPathComponent("expenses.csv")
         do {
             try csv.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-            print("CSV may have been created: ", filename)
+            print("CSV has been created: ", filename)
             
             let shareSheet = UIActivityViewController(activityItems: [filename], applicationActivities: nil)
             present(shareSheet, animated: true, completion: nil)
@@ -85,8 +84,27 @@ class SettingsViewController: UIViewController, UIColorPickerViewControllerDeleg
     }
     
     @IBAction func submitButtonTapped(_ sender: UIButton) {
-            let chosen = symbols[segmentedControl.selectedSegmentIndex]
-            UserDefaults.standard.set(chosen, forKey: "currencySymbol")
-            self.dismiss(animated: true, completion: nil)
+        let chosenCurrency = symbols[segmentedControl.selectedSegmentIndex]
+        UserDefaults.standard.set(chosenCurrency, forKey: "currencySymbol")
+        self.dismiss(animated: true)
+    }
+    
+    func saveBGColor(_ color: UIColor) {
+        UserDefaults.standard.set(color.toHex(), forKey: "backgroundColor")
+    }
+    
+    func loadBGColor() -> UIColor {
+        let loadedColorHex = UserDefaults.standard.string(forKey: "backgroundColor") ?? "#365EB5"
+        guard let loadedColor = UIColor(hex: loadedColorHex) else { return .blue }
+        return loadedColor
+    }
+    
+    // reference: https://swiftrivals.com/uikit/selecting-colors-using-uicolorwell
+    @objc func colorChanged(_ sender: UIColorWell) {
+        if let selectedColor = sender.selectedColor {
+            view.backgroundColor = selectedColor
+            saveBGColor(selectedColor)
         }
+    }
 }
+
