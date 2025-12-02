@@ -42,8 +42,11 @@ class CategoryExpenseViewController: UIViewController, UITableViewDelegate, UITa
         let category = Array(categorySumDict.keys)[indexPath.row]
         let total = categorySumDict[category] ?? 0.0
         
+        let currency = UserDefaults.standard.string(forKey: "currency") ?? "$"
+        cell.detailTextLabel?.text = "\(currency)\(String(format: "%.2f", total))"
         cell.textLabel?.text = category
-        cell.detailTextLabel?.text = "$\(String(format: "%.2f", total))"
+        cell.detailTextLabel?.text = "\(currency)\(String(format: "%.2f", total))"
         return cell
     }
+    
 }

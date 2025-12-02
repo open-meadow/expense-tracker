@@ -96,8 +96,8 @@ class ViewController: UIViewController {
         for expense in expensesDisplay {
             total += expense.amount
         }
-        
-        expensesLabel.text = "$\(total)"
+        let currency = UserDefaults.standard.string(forKey: "currencySymbol")
+        expensesLabel.text = "\(currency ?? "$")\(total)"
     }
     
     @IBAction func unwindToMain(_ segue: UIStoryboardSegue) {
